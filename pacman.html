@@ -16,28 +16,32 @@
 var canvas = document.getElementById("myCanvas");
 var context = canvas.getContext("2d");
 
+var myMaze = new Maze();
 
-make_maze();
-
-function make_maze()
-{
-  baseImage = new Image();
-  baseImage.src = 'images/maze.png';
-  baseImage.onload = function(){
-    context.drawImage(baseImage, 0,0, 450, 500);
-		scale(2,2);
-  }
-}
-
+setInterval(animate, 30);
 
 function animate(){
-	clearBackground();
-
+  myMaze.drawMaze();
 }
 
 function clearBackground() {
 	ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+function Maze(){
+  this.x = 0;
+  this.y = 0;
+  this.width = 450;
+  this.height = 500;
+
+  this.baseImage = new Image();
+  this.baseImage.src = 'images/maze.png';
+
+  this.drawMaze = function(){
+    context.drawImage(this.baseImage, this.x, this.y, this.width, this.height);
+  }
+
 }
 
 
