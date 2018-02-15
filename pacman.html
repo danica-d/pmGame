@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+
+</style>
+
+<body>
+
+<canvas width=500 height=550 id="myCanvas"></canvas>
+
+</body>
+
+<script>
+
+var canvas = document.getElementById("myCanvas");
+var context = canvas.getContext("2d");
+
+
+make_maze();
+
+function make_maze()
+{
+  baseImage = new Image();
+  baseImage.src = 'images/maze.png';
+  baseImage.onload = function(){
+    context.drawImage(baseImage, 0,0, 450, 500);
+		scale(2,2);
+  }
+}
+
+
+function animate(){
+	clearBackground();
+
+}
+
+function clearBackground() {
+	ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+
+</script>
+
+
+</html>
