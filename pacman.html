@@ -17,11 +17,13 @@ var canvas = document.getElementById("myCanvas");
 var context = canvas.getContext("2d");
 
 var myMaze = new Maze();
+var myPacman = new Pacman();
 
-setInterval(animate, 30);
+setInterval(animate, 60);
 
 function animate(){
   myMaze.drawMaze();
+  myPacman.drawPmRight();
 }
 
 function clearBackground() {
@@ -42,6 +44,28 @@ function Maze(){
     context.drawImage(this.baseImage, this.x, this.y, this.width, this.height);
   }
 
+}
+
+function Pacman(){
+  this.x = 10;
+  this.y = 10;
+  this.imageWidth= 15;
+  this.imageHeight = 15;
+
+  //for the sprite sheet
+  this.numbImages = 3;
+  this.currImage = 0;
+
+  //image variables
+  this.pmRight = new Image();
+  this.pmRight.src = "images/pmRight.png";
+
+  //"draw" functions
+  this.drawPmRight = function(){
+    context.drawImage(this.pmRight, this.currImage*this.imageWidth, 0, this.imageWidth, this.imageHeight, this.x, this.y, this.imageWidth, this.imageHeight);
+    this.currImage++;
+    this.currImage %= this.numbImages;
+  }
 }
 
 
