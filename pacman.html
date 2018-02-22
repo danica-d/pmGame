@@ -2,16 +2,16 @@
 <html>
 
 <style>
-
+canvas {border: 3px solid red;}
 </style>
 
 <body>
 
 <canvas width=500 height=550 id="myCanvas"></canvas>
 
-</body>
-
 <script>
+addEventListener("keydown", keyDown, false);
+addEventListener("keyup", keyUp, false);
 
 var canvas = document.getElementById("myCanvas");
 var context = canvas.getContext("2d");
@@ -22,18 +22,41 @@ var myPacman = new Pacman();
 setInterval(animate, 60);
 
 function animate(){
-  myMaze.drawMaze();
-  myPacman.drawPmRight();
+  clearBackground();
+    doSomething();
+    drawThings();
 }
 
 function clearBackground() {
-	ctx.fillStyle = "white";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+	context.fillStyle = "white";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+function doSomething(){
+  myPacman.takeAction();
+}
+
+function drawThings(){
+  myPacman.drawPmRight();
+}
+
+function keyDown(evt) {
+  if(evt.key == 'w')myPacman.movingUp = true;
+  else if(evt.key == 's')myPacman.movingDown = true;
+  else if(evt.key == 'a')myPacman.movingLeft = true;
+  else if(evt.key == 'd')myPacman.movingRight = true;
+}
+function keyUp(evt) {
+  if(evt.key == 'w')myPacman.movingUp = false;
+  else if(evt.key == 's')myPacman.movingDown = false;
+  else if(evt.key == 'a')myPacman.movingLeft = false;
+  else if(evt.key == 'd')myPacman.movingRight = false;
 }
 
 function Maze(){
   this.x = 0;
   this.y = 0;
+
   this.width = 450;
   this.height = 500;
 
@@ -49,12 +72,18 @@ function Maze(){
 function Pacman(){
   this.x = 10;
   this.y = 10;
-  this.imageWidth= 16;
-  this.imageHeight = 15;
+  this.speed = 3;
+  this.movingUp = false;
+  this.movingDown = false;
+  this.movingLeft = false;
+  this.movingRight = false;
 
   //for the sprite sheet
   this.numbImages = 3;
   this.currImage = 0;
+  this.imageWidth= 16;
+  this.imageHeight = 14;
+
 
   //image variables
   this.pmRight = new Image();
@@ -66,10 +95,32 @@ function Pacman(){
     this.currImage++;
     this.currImage %= this.numbImages;
   }
+
+  this.takeAction = function() {
+    if(this.movingUp) this.y -= this.speed;
+    else if(this.movingDown) this.y += this.speed;
+
+    if(this.movingLeft) this.x -= this.speed;
+    else if(this.movingRight) this.x += this.speed;
+
+//clean up data...keep it onscreen...could also take any
+//other actions at this point...or could take actions
+//before the movement section above
+    if(this.x < 0) this.x = 0;
+    else if(this.x + this.imageWidth > canvas.width)
+      this.x = canvas.width - this.imageWidth;
+
+    if(this.y < 0) this.y = 0;
+    else if(this.y + this.imageHeight > canvas.height)
+      this.y = canvas.height - this.imageHeight;
+
+  }
+
 }
 
 
 </script>
 
+</body>
 
 </html>
