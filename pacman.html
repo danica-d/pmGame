@@ -37,15 +37,61 @@ function doSomething(){
 }
 
 function drawThings(){
-  myPacman.drawPmRight();
+  if(myPacman.facingUp == true){
+		myPacman.drawPmUp();
+	}
+
+	if(myPacman.facingDown == true){
+		myPacman.drawPmDown();
+	}
+
+	if(myPacman.facingLeft == true){
+		myPacman.drawPmLeft();
+	}
+
+	if(myPacman.facingRight == true){
+		myPacman.drawPmRight();
+	}
 }
 
 function keyDown(evt) {
-  if(evt.key == 'w')myPacman.movingUp = true;
-  else if(evt.key == 's')myPacman.movingDown = true;
-  else if(evt.key == 'a')myPacman.movingLeft = true;
-  else if(evt.key == 'd')myPacman.movingRight = true;
+  if(evt.key == 'w'){
+		myPacman.movingUp = true;
+
+		myPacman.facingUp = true;
+		myPacman.facingDown = false;
+		myPacman.facingLeft = false;
+		myPacman.facingRight = false;
+	}
+
+  else if(evt.key == 's'){
+		myPacman.movingDown = true;
+
+		myPacman.facingDown = true;
+		myPacman.facingUp = false;
+		myPacman.facingLeft = false;
+		myPacman.facingRight = false;
+	}
+
+  else if(evt.key == 'a'){
+		myPacman.movingLeft = true;
+
+		myPacman.facingLeft = true;
+		myPacman.facingUp = false;
+		myPacman.facingDown = false;
+		myPacman.facingRight = false;
+	}
+
+  else if(evt.key == 'd'){
+		myPacman.movingRight = true;
+
+		myPacman.facingRight = true;
+		myPacman.facingUp = false;
+		myPacman.facingDown = false;
+		myPacman.facingLeft = false;
+	}
 }
+
 function keyUp(evt) {
   if(evt.key == 'w')myPacman.movingUp = false;
   else if(evt.key == 's')myPacman.movingDown = false;
@@ -53,21 +99,7 @@ function keyUp(evt) {
   else if(evt.key == 'd')myPacman.movingRight = false;
 }
 
-function Maze(){
-  this.x = 0;
-  this.y = 0;
 
-  this.width = 450;
-  this.height = 500;
-
-  this.baseImage = new Image();
-  this.baseImage.src = 'images/maze.png';
-
-  this.drawMaze = function(){
-    context.drawImage(this.baseImage, this.x, this.y, this.width, this.height);
-  }
-
-}
 
 function Pacman(){
   this.x = 10;
@@ -78,16 +110,35 @@ function Pacman(){
   this.movingLeft = false;
   this.movingRight = false;
 
+  this.facingUp = false;
+	this.facingDown = false;
+	this.facingLeft = false;
+	this.facingRight = true;
+
   //for the sprite sheet
   this.numbImages = 3;
   this.currImage = 0;
   this.imageWidth= 16;
   this.imageHeight = 14;
+  this.imageWidthVERTICAL = 14;
+  this.imageHeightVERTICAL = 16;
 
+
+  this.numbCols = 1;
+  this.numbRows = 3;
 
   //image variables
   this.pmRight = new Image();
   this.pmRight.src = "images/pmRight.png";
+
+  this.pmLeft = new Image();
+  this.pmLeft.src = "images/pmLeft.png";
+
+  this.pmUp = new Image();
+  this.pmUp.src = "images/pmUp.png";
+
+  this.pmDown = new Image();
+  this.pmDown.src = "images/pmDown.png";
 
   //"draw" functions
   this.drawPmRight = function(){
@@ -95,6 +146,31 @@ function Pacman(){
     this.currImage++;
     this.currImage %= this.numbImages;
   }
+
+  this.drawPmLeft = function() {
+    context.drawImage( this.pmLeft, this.currImage*this.imageWidth , 0, this.imageWidth, this.imageHeight, this.x, this.y, this.imageWidth, this.imageHeight );
+    this.currImage++;
+    this.currImage %= this.numbImages;
+  }
+
+  this.drawPmUp = function() {
+		this.currRow = Math.floor(this.currImage / this.numbCols);
+	  this.currCol = this.currImage % this.numbCols;
+	  context.drawImage( this.pmUp, this.currCol*this.imageWidthVERTICAL , this.currRow*this.imageHeightVERTICAL, this.imageWidthVERTICAL, this.imageHeightVERTICAL, this.x, this.y, this.imageWidthVERTICAL, this.imageHeightVERTICAL );
+	  this.currImage++;
+	  this.currImage %= this.numbImages;
+  }
+
+  this.drawPmDown = function() {
+		this.currRow = Math.floor(this.currImage / this.numbCols);
+	  this.currCol = this.currImage % this.numbCols;
+	  context.drawImage( this.pmDown, this.currCol*this.imageWidthVERTICAL , this.currRow*this.imageHeightVERTICAL, this.imageWidthVERTICAL, this.imageHeightVERTICAL, this.x, this.y, this.imageWidthVERTICAL, this.imageHeightVERTICAL );
+	  this.currImage++;
+	  this.currImage %= this.numbImages;
+	}
+
+
+
 
   this.takeAction = function() {
     if(this.movingUp) this.y -= this.speed;
@@ -114,6 +190,23 @@ function Pacman(){
     else if(this.y + this.imageHeight > canvas.height)
       this.y = canvas.height - this.imageHeight;
 
+  }
+
+}
+
+
+function Maze(){
+  this.x = 0;
+  this.y = 0;
+
+  this.width = 450;
+  this.height = 500;
+
+  this.baseImage = new Image();
+  this.baseImage.src = 'images/maze.png';
+
+  this.drawMaze = function(){
+    context.drawImage(this.baseImage, this.x, this.y, this.width, this.height);
   }
 
 }
