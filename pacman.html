@@ -6,10 +6,14 @@ canvas {border: 3px solid red;}
 </style>
 
 <body>
-
-<canvas width=500 height=550 id="myCanvas"></canvas>
+<canvas width=300 height=350 id="myCanvas"></canvas>
 
 <script>
+
+//DO COLLISION DETECTION WITH THE INVISIBLE WALLS, NOT THE ACTUAL MAZE PICTURE!!!!
+
+
+
 addEventListener("keydown", keyDown, false);
 addEventListener("keyup", keyUp, false);
 
@@ -18,6 +22,12 @@ var context = canvas.getContext("2d");
 
 var myMaze = new Maze();
 var myPacman = new Pacman();
+var myRedGhost = new RedGhost();
+
+//Wall(x, y, width, height)
+var walls = [];
+walls.push( new Wall(0, 0, 5, 350));
+walls.push( new Wall(0, 345, 300, 5));
 
 setInterval(animate, 60);
 
@@ -33,10 +43,16 @@ function clearBackground() {
 }
 
 function doSomething(){
-  myPacman.takeAction();
+  myPacman.takeAction(3, 3);
 }
 
 function drawThings(){
+  myMaze.drawMaze();
+  myRedGhost.drawRghRight();
+  for(var p in walls){
+    walls[p].draw();
+  }
+
   if(myPacman.facingUp == true){
 		myPacman.drawPmUp();
 	}
@@ -90,6 +106,17 @@ function keyDown(evt) {
 		myPacman.facingDown = false;
 		myPacman.facingLeft = false;
 	}
+
+  // var collisionAboutToHappen = false;
+  //
+  // if(detectCollision(myMaze, myPacman)){
+  //   collisionAboutToHappen = true;
+  // }
+  //
+  // if(collisionAboutToHappen == true){
+  //   myPacman.takeAction(-3, -3);
+  // }
+
 }
 
 function keyUp(evt) {
@@ -102,9 +129,8 @@ function keyUp(evt) {
 
 
 function Pacman(){
-  this.x = 10;
-  this.y = 10;
-  this.speed = 3;
+  this.x = 13;
+  this.y = 13;
   this.movingUp = false;
   this.movingDown = false;
   this.movingLeft = false;
@@ -170,14 +196,15 @@ function Pacman(){
 	}
 
 
+  this.takeAction = function(dx, dy) {
+    var origX = this.x;
+    var origY = this.y;
 
+    if(this.movingUp) this.y -= dy;
+    else if(this.movingDown) this.y += dy;
 
-  this.takeAction = function() {
-    if(this.movingUp) this.y -= this.speed;
-    else if(this.movingDown) this.y += this.speed;
-
-    if(this.movingLeft) this.x -= this.speed;
-    else if(this.movingRight) this.x += this.speed;
+    if(this.movingLeft) this.x -= dx;
+    else if(this.movingRight) this.x += dx;
 
 //clean up data...keep it onscreen...could also take any
 //other actions at this point...or could take actions
@@ -190,27 +217,85 @@ function Pacman(){
     else if(this.y + this.imageHeight > canvas.height)
       this.y = canvas.height - this.imageHeight;
 
+      //check for collisions...use a loop over the array of walls
+      var hitSomething = false;
+
+      for( var p in walls ){
+        if( detectCollision(walls[p], myPacman) ){
+          hitSomething = true;
+        }
+      }
+      if(hitSomething) {
+        this.x = origX;
+        this.y = origY;
+      }
+
   }
 
 }
 
+  function Wall(x, y, w, h) {
+    this.x = x;
+    this.y = y;
+    this.imageWidth = w;
+    this.imageHeight = h;
 
-function Maze(){
-  this.x = 0;
-  this.y = 0;
-
-  this.width = 450;
-  this.height = 500;
-
-  this.baseImage = new Image();
-  this.baseImage.src = 'images/maze.png';
-
-  this.drawMaze = function(){
-    context.drawImage(this.baseImage, this.x, this.y, this.width, this.height);
+    this.draw = function(){
+      context.fillRect(this.x, this.y, this.imageWidth, this.imageHeight);
+    }
   }
 
-}
 
+  function RedGhost(){
+    this.x = 225;
+    this.y = 225;
+    this.speed = 3;
+
+    //for the sprite sheet
+    this.numbImages = 2;
+    this.currImage = 0;
+    this.imageWidth= 16;
+    this.imageHeight = 17;
+
+    this.RghRight = new Image();
+    this.RghRight.src = "images/RghRight.png";
+
+    this.drawRghRight = function(){
+      context.drawImage(this.RghRight, this.currImage*this.imageWidth, 0, this.imageWidth, this.imageHeight, this.x, this.y, this.imageWidth, this.imageHeight);
+      this.currImage++;
+      this.currImage %= this.numbImages;
+    }
+  }
+
+
+
+
+  function Maze(){
+    this.x = 0;
+    this.y = 0;
+
+    this.width = 300;
+    this.height = 350;
+
+    this.baseImage = new Image();
+    this.baseImage.src = 'images/maze.png';
+
+    this.drawMaze = function(){
+      context.drawImage(this.baseImage, this.x, this.y, this.width, this.height);
+    }
+  }
+
+
+
+
+
+function detectCollision(obj1, obj2) {
+
+  return (	obj1.x < obj2.x + obj2.imageWidth &&
+  			obj1.x + obj1.imageWidth > obj2.x &&
+            obj1.y < obj2.y + obj2.imageHeight &&
+            obj1.y + obj1.imageHeight > obj2.y );
+}
 
 </script>
 
