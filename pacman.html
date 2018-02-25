@@ -6,7 +6,7 @@ canvas {border: 3px solid red;}
 </style>
 
 <body>
-<canvas width=300 height=350 id="myCanvas"></canvas>
+<canvas width=270 height=300 id="myCanvas"></canvas>
 
 <script>
 
@@ -26,8 +26,52 @@ var myRedGhost = new RedGhost();
 
 //Wall(x, y, width, height)
 var walls = [];
-walls.push( new Wall(0, 0, 5, 350));
-walls.push( new Wall(0, 345, 300, 5));
+walls.push(new Wall(0, 0, 5, 350, "blue")); //left edge
+walls.push(new Wall(0, 295, 300, 5)); //bottom edge
+walls.push(new Wall(0, 0, 300, 5)); //top edge
+walls.push(new Wall(265, 0, 5, 350)); //right edge
+
+walls.push(new Wall(23, 22, 31, 23)); //first row
+walls.push(new Wall(72, 22, 41, 23));
+walls.push(new Wall(130, 0, 10, 45));
+walls.push(new Wall(158, 22, 41, 23));
+walls.push(new Wall(216, 22, 31, 23));
+
+walls.push(new Wall(23, 61, 31, 12)); //second row
+walls.push(new Wall(72, 61, 11, 70));
+walls.push(new Wall(101, 61, 69, 12));
+walls.push(new Wall(188, 61, 12, 70));
+walls.push(new Wall(216, 61, 30, 12));
+
+walls.push(new Wall(0, 90, 54, 42)); //third row w/ the big squares
+walls.push(new Wall(72, 90, 40, 12));
+walls.push(new Wall(130, 62, 12, 40));
+walls.push(new Wall(159, 90, 40, 12));
+walls.push(new Wall(216, 90, 54, 42));
+
+walls.push(new Wall(0, 148, 54, 42)); //fourth row w/ the big squares
+walls.push(new Wall(72, 148, 11, 42));
+walls.push(new Wall(101, 178, 69, 12));
+walls.push(new Wall(188, 148, 12, 42));
+walls.push(new Wall(216, 148, 54, 42));
+
+walls.push(new Wall(23, 207, 30, 12)); //fifth row ;; h h v h h
+walls.push(new Wall(72, 207, 41, 12));
+walls.push(new Wall(130, 178, 11, 41));
+walls.push(new Wall(159, 207, 41, 12));
+walls.push(new Wall(216, 207, 30, 12));
+
+walls.push(new Wall(0, 235, 24, 14)); //sixth row with the lil ones ;; h v v h v v h
+walls.push(new Wall(42, 207, 11, 42));
+walls.push(new Wall(72, 235, 11, 42));
+walls.push(new Wall(101, 235, 69, 12));
+walls.push(new Wall(188, 235, 12, 42));
+walls.push(new Wall(216, 207, 11, 42));
+walls.push(new Wall(244, 235, 24, 14));
+
+walls.push(new Wall(23, 265, 89, 12)); //last row
+walls.push(new Wall(130, 235, 11, 42));
+walls.push(new Wall(159, 265, 89, 12));
 
 setInterval(animate, 60);
 
@@ -35,6 +79,7 @@ function animate(){
   clearBackground();
     doSomething();
     drawThings();
+
 }
 
 function clearBackground() {
@@ -42,17 +87,21 @@ function clearBackground() {
     context.fillRect(0, 0, canvas.width, canvas.height);
 }
 
+
 function doSomething(){
   myPacman.takeAction(3, 3);
 }
 
 function drawThings(){
-  myMaze.drawMaze();
-  myRedGhost.drawRghRight();
+
   for(var p in walls){
     walls[p].draw();
   }
 
+  myMaze.drawMaze();
+  myRedGhost.drawRghRight();
+
+//move walls above myMaze to make it "invisible"
   if(myPacman.facingUp == true){
 		myPacman.drawPmUp();
 	}
@@ -107,16 +156,6 @@ function keyDown(evt) {
 		myPacman.facingLeft = false;
 	}
 
-  // var collisionAboutToHappen = false;
-  //
-  // if(detectCollision(myMaze, myPacman)){
-  //   collisionAboutToHappen = true;
-  // }
-  //
-  // if(collisionAboutToHappen == true){
-  //   myPacman.takeAction(-3, -3);
-  // }
-
 }
 
 function keyUp(evt) {
@@ -129,8 +168,8 @@ function keyUp(evt) {
 
 
 function Pacman(){
-  this.x = 13;
-  this.y = 13;
+  this.x = 170;
+  this.y = 150;
   this.movingUp = false;
   this.movingDown = false;
   this.movingLeft = false;
@@ -233,22 +272,24 @@ function Pacman(){
   }
 
 }
-
-  function Wall(x, y, w, h) {
+//function Wall(x, y, w, h, c){} <<< c for color "clear"
+  function Wall(x, y, w, h, c) {
     this.x = x;
     this.y = y;
     this.imageWidth = w;
     this.imageHeight = h;
+    this.color = c;
 
     this.draw = function(){
+      context.fillStyle = this.color;
       context.fillRect(this.x, this.y, this.imageWidth, this.imageHeight);
     }
   }
 
 
   function RedGhost(){
-    this.x = 225;
-    this.y = 225;
+    this.x = 150;
+    this.y = 150;
     this.speed = 3;
 
     //for the sprite sheet
@@ -274,8 +315,8 @@ function Pacman(){
     this.x = 0;
     this.y = 0;
 
-    this.width = 300;
-    this.height = 350;
+    this.width = 270;
+    this.height = 300;
 
     this.baseImage = new Image();
     this.baseImage.src = 'images/maze.png';
