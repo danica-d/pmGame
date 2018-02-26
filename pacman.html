@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 
+
 <style>
 canvas {border: 3px solid red;}
 </style>
@@ -8,14 +9,14 @@ canvas {border: 3px solid red;}
 <body>
 <canvas width=270 height=300 id="myCanvas"></canvas>
 
+
 <script>
 
 //DO COLLISION DETECTION WITH THE INVISIBLE WALLS, NOT THE ACTUAL MAZE PICTURE!!!!
 
 
-
 addEventListener("keydown", keyDown, false);
-addEventListener("keyup", keyUp, false);
+// addEventListener("keyup", keyUp, false);
 
 var canvas = document.getElementById("myCanvas");
 var context = canvas.getContext("2d");
@@ -23,6 +24,8 @@ var context = canvas.getContext("2d");
 var myMaze = new Maze();
 var myPacman = new Pacman();
 var myRedGhost = new RedGhost();
+
+
 
 //Wall(x, y, width, height)
 var walls = [];
@@ -127,6 +130,11 @@ function drawThings(){
 }
 
 function keyDown(evt) {
+  myPacman.movingUp = false;
+  myPacman.movingDown = false;
+  myPacman.movingLeft = false;
+  myPacman.movingRight = false;
+  
   if(evt.key == 'w'){
 		myPacman.movingUp = true;
 
@@ -165,12 +173,12 @@ function keyDown(evt) {
 
 }
 
-function keyUp(evt) {
-  if(evt.key == 'w')myPacman.movingUp = false;
-  else if(evt.key == 's')myPacman.movingDown = false;
-  else if(evt.key == 'a')myPacman.movingLeft = false;
-  else if(evt.key == 'd')myPacman.movingRight = false;
-}
+// function keyUp(evt) {
+//   if(evt.key == 'w')myPacman.movingUp = false;
+//   else if(evt.key == 's')myPacman.movingDown = false;
+//   else if(evt.key == 'a')myPacman.movingLeft = false;
+//   else if(evt.key == 'd')myPacman.movingRight = false;
+// }
 
 
 
@@ -215,12 +223,14 @@ function Pacman(){
   //"draw" functions
   this.drawPmRight = function(){
     context.drawImage(this.pmRight, this.currImage*this.imageWidth, 0, this.imageWidth, this.imageHeight, this.x, this.y, this.imageWidth, this.imageHeight);
+
     this.currImage++;
     this.currImage %= this.numbImages;
   }
 
   this.drawPmLeft = function() {
     context.drawImage( this.pmLeft, this.currImage*this.imageWidth , 0, this.imageWidth, this.imageHeight, this.x, this.y, this.imageWidth, this.imageHeight );
+
     this.currImage++;
     this.currImage %= this.numbImages;
   }
@@ -229,7 +239,8 @@ function Pacman(){
 		this.currRow = Math.floor(this.currImage / this.numbCols);
 	  this.currCol = this.currImage % this.numbCols;
 	  context.drawImage( this.pmUp, this.currCol*this.imageWidthVERTICAL , this.currRow*this.imageHeightVERTICAL, this.imageWidthVERTICAL, this.imageHeightVERTICAL, this.x, this.y, this.imageWidthVERTICAL, this.imageHeightVERTICAL );
-	  this.currImage++;
+
+    this.currImage++;
 	  this.currImage %= this.numbImages;
   }
 
@@ -237,7 +248,8 @@ function Pacman(){
 		this.currRow = Math.floor(this.currImage / this.numbCols);
 	  this.currCol = this.currImage % this.numbCols;
 	  context.drawImage( this.pmDown, this.currCol*this.imageWidthVERTICAL , this.currRow*this.imageHeightVERTICAL, this.imageWidthVERTICAL, this.imageHeightVERTICAL, this.x, this.y, this.imageWidthVERTICAL, this.imageHeightVERTICAL );
-	  this.currImage++;
+
+    this.currImage++;
 	  this.currImage %= this.numbImages;
 	}
 
@@ -263,6 +275,8 @@ function Pacman(){
     else if(this.y + this.imageHeight > canvas.height)
       this.y = canvas.height - this.imageHeight;
 
+
+
       //check for collisions...use a loop over the array of walls
       var hitSomething = false;
 
@@ -275,10 +289,10 @@ function Pacman(){
         this.x = origX;
         this.y = origY;
       }
-
   }
 
 }
+
 //function Wall(x, y, w, h, c){} <<< c for color "clear"
   function Wall(x, y, w, h, c) {
     this.x = x;
