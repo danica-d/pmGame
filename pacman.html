@@ -9,6 +9,7 @@ canvas {border: 3px solid red;}
 <body>
 <canvas width=270 height=300 id="myCanvas"></canvas>
 
+<p id ="demo"></p>
 
 <script>
 
@@ -23,57 +24,59 @@ var context = canvas.getContext("2d");
 
 var myMaze = new Maze();
 var myPacman = new Pacman();
-var myRedGhost = new RedGhost();
-
+var myRedGhost = new Ghost("red");
+var myPinkGhost = new Ghost("pink");
+var myBlueGhost = new Ghost("blue");
+var myYellowGhost = new Ghost("yellow");
 
 
 //Wall(x, y, width, height)
 var walls = [];
-walls.push(new Wall(0, 0, 5, 350, "blue")); //left edge
+walls.push(new Wall(0, 0, 5, 350, "clear")); //left edge
 walls.push(new Wall(0, 295, 300, 5)); //bottom edge
 walls.push(new Wall(0, 0, 300, 5)); //top edge
 walls.push(new Wall(265, 0, 5, 350)); //right edge
 
-walls.push(new Wall(23, 22, 31, 23)); //first row
-walls.push(new Wall(72, 22, 41, 23));
-walls.push(new Wall(130, 0, 10, 45));
-walls.push(new Wall(158, 22, 41, 23));
-walls.push(new Wall(216, 22, 31, 23));
+walls.push(new Wall(23, 23, 31, 22)); //first row
+walls.push(new Wall(72, 23, 41, 22));
+walls.push(new Wall(130, 0, 10, 44));
+walls.push(new Wall(158, 23, 41, 22));
+walls.push(new Wall(217, 23, 31, 22));
 
-walls.push(new Wall(23, 61, 31, 12)); //second row
-walls.push(new Wall(72, 61, 11, 70));
-walls.push(new Wall(101, 61, 69, 13));
-walls.push(new Wall(188, 61, 12, 70));
-walls.push(new Wall(216, 61, 30, 12));
+walls.push(new Wall(23, 62, 31, 12)); //second row
+walls.push(new Wall(72, 62, 11, 70));
+walls.push(new Wall(101, 62, 69, 12));
+walls.push(new Wall(188, 62, 12, 70));
+walls.push(new Wall(217, 62, 30, 12));
 
-walls.push(new Wall(0, 90, 54, 42)); //third row w/ the big squares
-walls.push(new Wall(72, 90, 40, 13));
-walls.push(new Wall(130, 62, 12, 41));
-walls.push(new Wall(159, 90, 40, 13));
-walls.push(new Wall(216, 90, 54, 42));
+walls.push(new Wall(0, 92, 54, 40)); //third row w/ the big squares
+walls.push(new Wall(72, 92, 40, 11));
+walls.push(new Wall(130, 62, 11, 41));
+walls.push(new Wall(159, 92, 40, 11));
+walls.push(new Wall(217, 92, 54, 40));
 
-walls.push(new Wall(0, 148, 54, 42)); //fourth row w/ the big squares
-walls.push(new Wall(72, 148, 11, 42));
+walls.push(new Wall(0, 150, 54, 40)); //fourth row w/ the big squares
+walls.push(new Wall(72, 150, 11, 40));
 walls.push(new Wall(101, 178, 69, 12));
-walls.push(new Wall(188, 148, 12, 42));
-walls.push(new Wall(216, 148, 54, 42));
+walls.push(new Wall(188, 150, 12, 40));
+walls.push(new Wall(217, 150, 54, 40));
 
-walls.push(new Wall(23, 207, 30, 12)); //fifth row ;; h h v h h
-walls.push(new Wall(72, 207, 41, 12));
+walls.push(new Wall(23, 208, 30, 11)); //fifth row ;; h h v h h
+walls.push(new Wall(72, 208, 41, 11));
 walls.push(new Wall(130, 178, 11, 41));
-walls.push(new Wall(159, 207, 41, 12));
-walls.push(new Wall(216, 207, 30, 12));
+walls.push(new Wall(159, 208, 41, 11));
+walls.push(new Wall(217, 208, 30, 10));
 
-walls.push(new Wall(0, 235, 24, 14)); //sixth row with the lil ones ;; h v v h v v h
-walls.push(new Wall(42, 207, 11, 42));
-walls.push(new Wall(72, 235, 11, 42));
-walls.push(new Wall(101, 235, 69, 12));
-walls.push(new Wall(188, 235, 12, 42));
-walls.push(new Wall(216, 207, 11, 42));
-walls.push(new Wall(244, 235, 24, 14));
+walls.push(new Wall(0, 236, 25, 11)); //sixth row with the lil ones ;; h v v h v v h
+walls.push(new Wall(43, 208, 11, 39));
+walls.push(new Wall(72, 236, 11, 39));
+walls.push(new Wall(101, 236, 69, 11));
+walls.push(new Wall(188, 236, 11, 39));
+walls.push(new Wall(217, 208, 11, 39));
+walls.push(new Wall(246, 236, 25, 11));
 
 walls.push(new Wall(23, 265, 89, 12)); //last row
-walls.push(new Wall(130, 235, 11, 42));
+walls.push(new Wall(130, 236, 10, 41));
 walls.push(new Wall(159, 265, 89, 12));
 
 //middle square
@@ -93,13 +96,17 @@ function animate(){
 }
 
 function clearBackground() {
-	context.fillStyle = "white";
+	context.fillStyle = "black";
     context.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 
 function doSomething(){
   myPacman.takeAction(3, 3);
+  myRedGhost.takeAction();
+  myPinkGhost.takeAction();
+  myBlueGhost.takeAction();
+  myYellowGhost.takeAction();
 }
 
 function drawThings(){
@@ -109,9 +116,7 @@ function drawThings(){
   }
 
   myMaze.drawMaze();
-  myRedGhost.drawRghRight();
 
-//move walls above myMaze to make it "invisible"
   if(myPacman.facingUp == true){
 		myPacman.drawPmUp();
 	}
@@ -127,6 +132,69 @@ function drawThings(){
 	if(myPacman.facingRight == true){
 		myPacman.drawPmRight();
 	}
+
+
+//red ghost
+  if(myRedGhost.movingRight == true){
+    myRedGhost.drawRight();
+  }
+  if(myRedGhost.movingLeft == true){
+    myRedGhost.drawLeft();
+  }
+
+  if(myRedGhost.movingUp == true){
+    myRedGhost.drawUp();
+  }
+
+  if(myRedGhost.movingDown == true){
+    myRedGhost.drawDown();
+  }
+//pink ghost
+  if(myPinkGhost.movingRight == true){
+    myPinkGhost.drawRight();
+  }
+  if(myPinkGhost.movingLeft == true){
+    myPinkGhost.drawLeft();
+  }
+
+  if(myPinkGhost.movingUp == true){
+    myPinkGhost.drawUp();
+  }
+
+  if(myPinkGhost.movingDown == true){
+    myPinkGhost.drawDown();
+  }
+//blue ghost
+  if(myBlueGhost.movingRight == true){
+    myBlueGhost.drawRight();
+  }
+  if(myBlueGhost.movingLeft == true){
+    myBlueGhost.drawLeft();
+  }
+
+  if(myBlueGhost.movingUp == true){
+    myBlueGhost.drawUp();
+  }
+
+  if(myBlueGhost.movingDown == true){
+    myBlueGhost.drawDown();
+  }
+//yellow ghost
+  if(myYellowGhost.movingRight == true){
+    myYellowGhost.drawRight();
+  }
+  if(myYellowGhost.movingLeft == true){
+    myYellowGhost.drawLeft();
+  }
+
+  if(myYellowGhost.movingUp == true){
+    myYellowGhost.drawUp();
+  }
+
+  if(myYellowGhost.movingDown == true){
+    myYellowGhost.drawDown();
+  }
+
 }
 
 function keyDown(evt) {
@@ -134,7 +202,7 @@ function keyDown(evt) {
   myPacman.movingDown = false;
   myPacman.movingLeft = false;
   myPacman.movingRight = false;
-  
+
   if(evt.key == 'w'){
 		myPacman.movingUp = true;
 
@@ -173,18 +241,12 @@ function keyDown(evt) {
 
 }
 
-// function keyUp(evt) {
-//   if(evt.key == 'w')myPacman.movingUp = false;
-//   else if(evt.key == 's')myPacman.movingDown = false;
-//   else if(evt.key == 'a')myPacman.movingLeft = false;
-//   else if(evt.key == 'd')myPacman.movingRight = false;
-// }
 
 
 
 function Pacman(){
-  this.x = 170;
-  this.y = 150;
+  this.x = 6;
+  this.y = 6;
   this.movingUp = false;
   this.movingDown = false;
   this.movingLeft = false;
@@ -198,8 +260,10 @@ function Pacman(){
   //for the sprite sheet
   this.numbImages = 3;
   this.currImage = 0;
+  this.imageWidthSS = 16;
+  this.imageHeightSS = 14;
   this.imageWidth= 16;
-  this.imageHeight = 14;
+  this.imageHeight = 16;
   this.imageWidthVERTICAL = 14;
   this.imageHeightVERTICAL = 16;
 
@@ -222,14 +286,14 @@ function Pacman(){
 
   //"draw" functions
   this.drawPmRight = function(){
-    context.drawImage(this.pmRight, this.currImage*this.imageWidth, 0, this.imageWidth, this.imageHeight, this.x, this.y, this.imageWidth, this.imageHeight);
+    context.drawImage(this.pmRight, this.currImage*this.imageWidthSS, 0, this.imageWidthSS, this.imageHeight, this.x, this.y, this.imageWidth, this.imageHeight);
 
     this.currImage++;
     this.currImage %= this.numbImages;
   }
 
   this.drawPmLeft = function() {
-    context.drawImage( this.pmLeft, this.currImage*this.imageWidth , 0, this.imageWidth, this.imageHeight, this.x, this.y, this.imageWidth, this.imageHeight );
+    context.drawImage( this.pmLeft, this.currImage*this.imageWidthSS , 0, this.imageWidthSS, this.imageHeight, this.x, this.y, this.imageWidth, this.imageHeight );
 
     this.currImage++;
     this.currImage %= this.numbImages;
@@ -238,7 +302,7 @@ function Pacman(){
   this.drawPmUp = function() {
 		this.currRow = Math.floor(this.currImage / this.numbCols);
 	  this.currCol = this.currImage % this.numbCols;
-	  context.drawImage( this.pmUp, this.currCol*this.imageWidthVERTICAL , this.currRow*this.imageHeightVERTICAL, this.imageWidthVERTICAL, this.imageHeightVERTICAL, this.x, this.y, this.imageWidthVERTICAL, this.imageHeightVERTICAL );
+	  context.drawImage( this.pmUp, this.currCol*this.imageWidthVERTICAL , this.currRow*this.imageHeightVERTICAL, this.imageWidthVERTICAL, this.imageHeightVERTICAL, this.x, this.y, this.imageWidth, this.imageHeight );
 
     this.currImage++;
 	  this.currImage %= this.numbImages;
@@ -247,7 +311,7 @@ function Pacman(){
   this.drawPmDown = function() {
 		this.currRow = Math.floor(this.currImage / this.numbCols);
 	  this.currCol = this.currImage % this.numbCols;
-	  context.drawImage( this.pmDown, this.currCol*this.imageWidthVERTICAL , this.currRow*this.imageHeightVERTICAL, this.imageWidthVERTICAL, this.imageHeightVERTICAL, this.x, this.y, this.imageWidthVERTICAL, this.imageHeightVERTICAL );
+	  context.drawImage( this.pmDown, this.currCol*this.imageWidthVERTICAL , this.currRow*this.imageHeightVERTICAL, this.imageWidthVERTICAL, this.imageHeightVERTICAL, this.x, this.y, this.imageWidth, this.imageHeight );
 
     this.currImage++;
 	  this.currImage %= this.numbImages;
@@ -276,61 +340,262 @@ function Pacman(){
       this.y = canvas.height - this.imageHeight;
 
 
-
       //check for collisions...use a loop over the array of walls
-      var hitSomething = false;
+      var pmHitWall = false;
 
       for( var p in walls ){
         if( detectCollision(walls[p], myPacman) ){
-          hitSomething = true;
+          pmHitWall = true;
         }
       }
-      if(hitSomething) {
+      if(pmHitWall) {
         this.x = origX;
         this.y = origY;
       }
   }
-
 }
 
-//function Wall(x, y, w, h, c){} <<< c for color "clear"
-  function Wall(x, y, w, h, c) {
-    this.x = x;
-    this.y = y;
-    this.imageWidth = w;
-    this.imageHeight = h;
-    this.color = c;
 
-    this.draw = function(){
-      context.fillStyle = this.color;
-      context.fillRect(this.x, this.y, this.imageWidth, this.imageHeight);
-    }
-  }
+  function Ghost(clr) {
 
-
-  function RedGhost(){
-    this.x = 130;
+    this.color = clr;
+    this.x = 110;
     this.y = 130;
-    this.speed = 3;
+    this.dx = 3;
+    this.dy = 3;
+
+    this.movingUp = false;
+    this.movingDown = false;
+    this.movingLeft = false;
+    this.movingRight = false;
 
     //for the sprite sheet
     this.numbImages = 2;
     this.currImage = 0;
+
     this.imageWidth= 16;
-    this.imageHeight = 17;
+    this.imageHeight = 16;
 
-    this.RghRight = new Image();
-    this.RghRight.src = "images/RghRight.png";
+    this.RESPAWN_1 = 0;
+    this.RESPAWN_2 = 1;
+    this.EXIT_JAIL_1 = 2;
+    this.EXIT_JAIL_2 = 3;
+    this.EXIT_JAIL_3 = 4;
+    this.NORMAL = 5;
 
-    this.drawRghRight = function(){
-      context.drawImage(this.RghRight, this.currImage*this.imageWidth, 0, this.imageWidth, this.imageHeight, this.x, this.y, this.imageWidth, this.imageHeight);
+
+    this.Right = new Image();
+    this.Left = new Image();
+    this.Up = new Image();
+    this.Down = new Image();
+
+    if(clr == "red") {
+      this.currentState = this.RESPAWN_1;
+
+      this.Right.src = "images/RghRight.png";
+      this.Left.src = "images/RghLeft.png";
+      this.Up.src = "images/RghUp.png";
+      this.Down.src = "images/RghDown.png";
+    }
+    else if(clr == "pink") {
+      this.currentState = this.RESPAWN_2;
+
+      this.Right.src = "images/PghRight.png";
+      this.Left.src = "images/PghLeft.png";
+      this.Up.src = "images/PghUp.png";
+      this.Down.src = "images/PghDown.png";
+     }
+    else if(clr == "blue"){
+      this.currentState = this.RESPAWN_1;
+
+      this.Right.src = "images/BghRight.png";
+      this.Left.src = "images/BghLeft.png";
+      this.Up.src = "images/BghUp.png";
+      this.Down.src = "images/BghDown.png";
+    }
+    else if(clr == "yellow"){
+      this.currentState = this.RESPAWN_2;
+
+      this.Right.src = "images/YghRight.png";
+      this.Left.src = "images/YghLeft.png";
+      this.Up.src = "images/YghUp.png";
+      this.Down.src = "images/YghDown.png";
+    }
+
+    this.drawRight = function(){
+      context.drawImage(this.Right, this.currImage*this.imageWidth, 0, this.imageWidth, this.imageHeight, this.x, this.y, this.imageWidth, this.imageHeight);
       this.currImage++;
       this.currImage %= this.numbImages;
     }
-  }
+
+    this.drawLeft = function(){
+      context.drawImage(this.Left, this.currImage*this.imageWidth, 0, this.imageWidth, this.imageHeight, this.x, this.y, this.imageWidth, this.imageHeight);
+      this.currImage++;
+      this.currImage %= this.numbImages;
+    }
+
+    this.drawUp = function(){
+      context.drawImage(this.Up, this.currImage*this.imageWidth, 0, this.imageWidth, this.imageHeight, this.x, this.y, this.imageWidth, this.imageHeight);
+      this.currImage++;
+      this.currImage %= this.numbImages;
+    }
+
+    this.drawDown = function(){
+      context.drawImage(this.Down, this.currImage*this.imageWidth, 0, this.imageWidth, this.imageHeight, this.x, this.y, this.imageWidth, this.imageHeight);
+      this.currImage++;
+      this.currImage %= this.numbImages;
+    }
 
 
+    this.takeAction = function() {
 
+      if(this.currentState == this.RESPAWN_1) {
+        this.movingRight = true;
+        this.x = 110;
+        this.y = 130;
+        this.currentState = this.EXIT_JAIL_1;
+      }
+
+      if(this.currentState == this.RESPAWN_2) {
+        this.movingLeft = true;
+        this.x = 140;
+        this.y = 130;
+        this.currentState = this.EXIT_JAIL_3;
+      }
+
+      else if(this.currentState == this.EXIT_JAIL_1) { //if you start on left side
+          this.x += this.dx;
+          if(this.x >= 130)
+            this.currentState = this.EXIT_JAIL_2;
+      }
+
+      else if (this.currentState == this.EXIT_JAIL_3){ //if you start on right side
+          this.x -= this.dx;
+          if(this.x <= 130)
+            this.currentState = this.EXIT_JAIL_2;
+      }
+
+      else if(this.currentState == this.EXIT_JAIL_2) { //going up
+          this.y -= this.dy;
+          if(this.y <= 105)
+            this.currentState = this.NORMAL;
+      }
+
+
+      else if(this.currentState == this.NORMAL) {
+        var OrigX = this.x;
+        var OrigY = this.y;
+
+        if(this.movingRight) this.x += this.dx;
+        else if(this.movingLeft) this.x -= this.dx;
+        else if(this.movingUp) this.y -= this.dy;
+        else if(this.movingDown) this.y += this.dy;
+
+        //use state machine
+        //collision detection with wall, randomly change directions
+        var ghHitWall = false;
+
+        if(this.color == "red"){
+          for( var p in walls ){
+            if( detectCollision(walls[p], myRedGhost ) ){
+              ghHitWall = true;
+            }
+          }
+        }
+        else if(this.color == "pink"){
+          for( var p in walls ){
+            if( detectCollision(walls[p], myPinkGhost ) ){
+              ghHitWall = true;
+            }
+          }
+        }
+        else if(this.color == "blue"){
+          for( var p in walls ){
+            if( detectCollision(walls[p], myBlueGhost ) ){
+              ghHitWall = true;
+            }
+          }
+        }
+        else if(this.color == "yellow"){
+          for( var p in walls ){
+            if( detectCollision(walls[p], myYellowGhost ) ){
+              ghHitWall = true;
+            }
+          }
+        }
+
+          if(ghHitWall == true){
+
+            var state = Math.floor(Math.random() * 4) + 1;
+
+            // this.x = RghOrigX;
+            // this.y = RghOrigY;
+              if(state == 1){
+                this.x = OrigX;
+                this.y = OrigY;
+                this.movingRight = true;
+
+                this.movingLeft = false;
+                this.movingUp = false;
+                this.movingDown = false;
+
+
+              }
+
+              if(state == 2){
+                this.x = OrigX;
+                this.y = OrigY;
+                this.movingLeft = true;
+
+                this.movingRight = false;
+                this.movingUp = false;
+                this.movingDown = false;
+
+              }
+
+              if(state == 3){
+                this.x = OrigX;
+                this.y = OrigY;
+                this.movingUp = true;
+
+                this.movingDown = false;
+                this.movingRight = false;
+                this.movingLeft = false;
+
+              }
+
+              if(state == 4){
+                this.x = OrigX;
+                this.y = OrigY;
+                this.movingDown = true;
+
+                this.movingUp = false;
+                this.movingRight = false;
+                this.movingLeft = false;
+            }
+
+          } //if collision detection is true
+
+      } //in currentState
+
+    } //takeAction
+
+  } //Ghost object
+
+
+  //function Wall(x, y, w, h, c){} <<< c for color "clear"
+    function Wall(x, y, w, h, c) {
+      this.x = x;
+      this.y = y;
+      this.imageWidth = w;
+      this.imageHeight = h;
+      this.color = c;
+
+      this.draw = function(){
+        context.fillStyle = this.color;
+        context.fillRect(this.x, this.y, this.imageWidth, this.imageHeight);
+      }
+    }
 
   function Maze(){
     this.x = 0;
@@ -346,7 +611,6 @@ function Pacman(){
       context.drawImage(this.baseImage, this.x, this.y, this.width, this.height);
     }
   }
-
 
 
 
