@@ -94,11 +94,435 @@ walls.push(new Wall(100, 154, 65, 8));
 //whether or not the dot should be drawn. If pmEats it, drawDot = false
 
 var dots = [];
+dots.push(new Dot(13, 13)); //1st row
+dots.push(new Dot(23, 13));
+dots.push(new Dot(32, 13));
+dots.push(new Dot(42, 13));
+dots.push(new Dot(51, 13));
+dots.push(new Dot(61, 13)); //intersection
+dots.push(new Dot(71, 13));
+dots.push(new Dot(81, 13));
+dots.push(new Dot(91, 13));
+dots.push(new Dot(101, 13));
+dots.push(new Dot(111, 13));
+dots.push(new Dot(120, 13)); //intersection
+//wall
+dots.push(new Dot(147, 13)); //intersection
+dots.push(new Dot(157, 13));
+dots.push(new Dot(166, 13));
+dots.push(new Dot(176, 13)); //intersection
+dots.push(new Dot(185, 13));
+dots.push(new Dot(196, 13));
+dots.push(new Dot(206, 13)); //intersection
+dots.push(new Dot(216, 13));
+dots.push(new Dot(225, 13));
+dots.push(new Dot(234, 13));
+dots.push(new Dot(244, 13));
+dots.push(new Dot(254, 13)); //intersection
 
-dots.push(new Dot(13, 13));
-dots.push(new Dot(25, 13));
-dots.push(new Dot(37, 13));
-dots.push(new Dot(49, 13));
+
+dots.push(new Dot(13, 24)); //1st column
+dots.push(new Dot(13, 33));
+dots.push(new Dot(13, 43));
+dots.push(new Dot(13, 53)); //intersection
+dots.push(new Dot(13, 62));
+dots.push(new Dot(13, 71.5));
+dots.push(new Dot(13, 81)); //intersection
+//upper big square
+//lower big square
+dots.push(new Dot(13, 196)); //intersection
+dots.push(new Dot(13, 206));
+dots.push(new Dot(13, 215));
+dots.push(new Dot(13, 225));
+//wall
+dots.push(new Dot(13, 255));
+dots.push(new Dot(13, 264));
+dots.push(new Dot(13, 274));
+dots.push(new Dot(13, 284));
+
+
+dots.push(new Dot(23, 53)); //2nd row w.o the first one
+dots.push(new Dot(32, 53));
+dots.push(new Dot(42, 53));
+dots.push(new Dot(51, 53));
+dots.push(new Dot(61, 53)); //intersection
+dots.push(new Dot(71, 53));
+dots.push(new Dot(80, 53));
+dots.push(new Dot(91, 53)); //intersection
+dots.push(new Dot(101, 53));
+dots.push(new Dot(111, 53));
+dots.push(new Dot(120, 53)); //intersection
+dots.push(new Dot(129, 53));
+dots.push(new Dot(137, 53));
+dots.push(new Dot(147, 53)); //intersection
+dots.push(new Dot(157, 53));
+dots.push(new Dot(166, 53));
+dots.push(new Dot(176, 53)); //intersection
+dots.push(new Dot(185, 53));
+dots.push(new Dot(196, 53));
+dots.push(new Dot(206, 53)); //intersection
+dots.push(new Dot(216, 53));
+dots.push(new Dot(225, 53));
+dots.push(new Dot(234, 53));
+dots.push(new Dot(244, 53));
+dots.push(new Dot(254, 53)); //intersection
+
+
+dots.push(new Dot(32, 235)); //2nd column starting after lower big square after first and second intersection ones
+dots.push(new Dot(32, 245));
+//intersection to 9th row
+//wall
+dots.push(new Dot(32, 284));
+
+
+dots.push(new Dot(23, 81)); //3rd row w.o the first one
+dots.push(new Dot(32, 81));
+dots.push(new Dot(42, 81));
+dots.push(new Dot(51, 81));
+dots.push(new Dot(61, 81)); //intersection
+//wall
+dots.push(new Dot(91, 81)); //intersection
+dots.push(new Dot(100, 81));
+dots.push(new Dot(110, 81));
+dots.push(new Dot(120, 81)); //intersection
+//wall
+dots.push(new Dot(147, 81)); //intersection
+dots.push(new Dot(157, 81));
+dots.push(new Dot(166, 81));
+dots.push(new Dot(176, 81)); //intersection
+//wall
+dots.push(new Dot(206, 81)); //intersection
+dots.push(new Dot(215, 81));
+dots.push(new Dot(225, 81));
+dots.push(new Dot(235, 81));
+dots.push(new Dot(244, 81));
+dots.push(new Dot(254, 81)); //intersection
+
+
+dots.push(new Dot(61, 24)); //3rd column w.o the first one
+dots.push(new Dot(61, 33));
+dots.push(new Dot(61, 43));
+//intersection
+dots.push(new Dot(61, 62.5));
+dots.push(new Dot(61, 71.5));
+//intersection
+dots.push(new Dot(61, 91));
+dots.push(new Dot(61, 101));
+dots.push(new Dot(61, 110));
+dots.push(new Dot(61, 120));
+dots.push(new Dot(61, 129));
+dots.push(new Dot(61, 138)); //intersection
+dots.push(new Dot(61, 148));
+dots.push(new Dot(61, 158));
+dots.push(new Dot(61, 167));
+dots.push(new Dot(61, 177));
+dots.push(new Dot(61, 186));
+dots.push(new Dot(61, 196)); //intersection
+dots.push(new Dot(61, 206));
+dots.push(new Dot(61, 215));
+dots.push(new Dot(61, 225));
+dots.push(new Dot(61, 235));
+dots.push(new Dot(61, 245));
+dots.push(new Dot(61, 255));
+//wall
+dots.push(new Dot(61, 284)); //y-val for last row!
+
+
+dots.push(new Dot(101, 110)); //4th row w.o first & second intersection ones
+dots.push(new Dot(111, 110));
+dots.push(new Dot(120, 110)); //intersection
+dots.push(new Dot(129, 110));
+dots.push(new Dot(137, 110));
+dots.push(new Dot(147, 110)); //intersection
+dots.push(new Dot(157, 110));
+dots.push(new Dot(166, 110));
+dots.push(new Dot(176, 110)); //intersection
+//wall
+dots.push(new Dot(206, 110)); //intersection
+
+
+dots.push(new Dot(91, 62.5)); //4th column w.o first & second intersection ones
+dots.push(new Dot(91, 72));
+//intersection
+//wall
+dots.push(new Dot(91, 110));
+dots.push(new Dot(91, 120));
+dots.push(new Dot(91, 129));
+dots.push(new Dot(91, 138)); //intersection
+dots.push(new Dot(91, 148));
+dots.push(new Dot(91, 158));
+dots.push(new Dot(91, 167)); //intersection
+dots.push(new Dot(91, 177));
+dots.push(new Dot(91, 186));
+dots.push(new Dot(91, 196));
+//wall
+dots.push(new Dot(91, 225));
+dots.push(new Dot(91, 235));
+dots.push(new Dot(91, 245));
+dots.push(new Dot(91, 255));
+//wall
+dots.push(new Dot(91, 284));
+
+
+dots.push(new Dot(5, 138)); //5th row w/ tunnels
+dots.push(new Dot(14, 138));
+dots.push(new Dot(22, 138));
+dots.push(new Dot(32, 138));
+dots.push(new Dot(42, 138));
+dots.push(new Dot(51, 138));
+//intersection
+dots.push(new Dot(71, 138));
+dots.push(new Dot(80, 138));
+//jail walls
+dots.push(new Dot(176, 138)); //intersection
+dots.push(new Dot(185, 138));
+dots.push(new Dot(195, 138));
+dots.push(new Dot(206, 138)); //intersection
+dots.push(new Dot(216, 138));
+dots.push(new Dot(226, 138));
+dots.push(new Dot(235, 138));
+dots.push(new Dot(244, 138));
+dots.push(new Dot(253, 138));
+dots.push(new Dot(261, 138));
+
+
+dots.push(new Dot(120, 24)); //5th column w.o first one
+dots.push(new Dot(120, 33));
+dots.push(new Dot(120, 43));
+//intersection
+//wall
+//intersection
+dots.push(new Dot(120, 91));
+dots.push(new Dot(120, 101));
+//intersection
+//jail wall
+dots.push(new Dot(120, 167));
+//wall
+dots.push(new Dot(120, 196)); //intersection
+dots.push(new Dot(120, 206));
+dots.push(new Dot(120, 215));
+dots.push(new Dot(120, 225));
+//wall
+dots.push(new Dot(120, 255));
+dots.push(new Dot(120, 264));
+dots.push(new Dot(120, 274));
+dots.push(new Dot(120, 284));
+
+
+dots.push(new Dot(101, 167)); //6th row w.o first & second intersection ones
+dots.push(new Dot(111, 167));
+//intersection to 5th column
+dots.push(new Dot(129, 167));
+dots.push(new Dot(137, 167));
+//intersection to 6th column
+dots.push(new Dot(157, 167));
+dots.push(new Dot(166, 167));
+dots.push(new Dot(176, 167)); //intersection
+//wall
+dots.push(new Dot(206, 167)); //intersection
+
+
+dots.push(new Dot(147, 24)); //6th column w.o first one
+dots.push(new Dot(147, 33));
+dots.push(new Dot(147, 43));
+//intersection
+//wall
+//intersection
+dots.push(new Dot(147, 91));
+dots.push(new Dot(147, 101));
+//intersection
+//jail wall
+dots.push(new Dot(147, 167));
+//wall
+dots.push(new Dot(147, 196)); //intersection
+dots.push(new Dot(147, 206));
+dots.push(new Dot(147, 215));
+dots.push(new Dot(147, 225));
+//wall
+dots.push(new Dot(147, 255));
+dots.push(new Dot(147, 264));
+dots.push(new Dot(147, 274));
+dots.push(new Dot(147, 284));
+
+
+dots.push(new Dot(23, 196)); //7th row w.o the first one
+dots.push(new Dot(32, 196));
+dots.push(new Dot(42, 196));
+dots.push(new Dot(51, 196));
+//intersection to 3rd column
+dots.push(new Dot(71, 196));
+dots.push(new Dot(80, 196));
+//intersection to 4th column
+dots.push(new Dot(101, 196));
+dots.push(new Dot(111, 196));
+//intersection to 5th column
+//wall
+//intersection to 6th column
+dots.push(new Dot(157, 196));
+dots.push(new Dot(166, 196));
+//intersection to 7th column
+dots.push(new Dot(185, 196));
+dots.push(new Dot(196, 196));
+dots.push(new Dot(206, 196)); //intersection
+dots.push(new Dot(216, 196));
+dots.push(new Dot(225, 196));
+dots.push(new Dot(234, 196));
+dots.push(new Dot(244, 196));
+dots.push(new Dot(254, 196)); //intersection
+
+
+dots.push(new Dot(176, 62.5)); //7th column w.o first & second intersection ones
+dots.push(new Dot(176, 72));
+//intersection
+//wall
+//intersection to 4th row
+dots.push(new Dot(176, 120));
+dots.push(new Dot(176, 129));
+//intersection to 5th row
+dots.push(new Dot(176, 148));
+dots.push(new Dot(176, 158));
+//intersection to 6th row
+dots.push(new Dot(176, 177));
+dots.push(new Dot(176, 186));
+dots.push(new Dot(176, 196));
+//wall
+dots.push(new Dot(176, 225));
+dots.push(new Dot(176, 235));
+dots.push(new Dot(176, 245));
+dots.push(new Dot(176, 255));
+//wall
+dots.push(new Dot(176, 284));
+
+
+dots.push(new Dot(23, 225)); //8th row w.o the first one225
+dots.push(new Dot(32, 225));
+//wall
+//intersection to 3rd column
+dots.push(new Dot(71, 225));
+dots.push(new Dot(80, 225));
+//intersection to 4th column
+dots.push(new Dot(101, 225));
+dots.push(new Dot(111, 225));
+//intersection to 5th column
+dots.push(new Dot(129, 225));
+dots.push(new Dot(137, 225));
+//intersection to 6th column
+dots.push(new Dot(157, 225));
+dots.push(new Dot(166, 225));
+//intersection to 7th column
+dots.push(new Dot(185, 225));
+dots.push(new Dot(196, 225));
+//intersection to 8th column
+//wall
+dots.push(new Dot(234, 225));
+dots.push(new Dot(244, 225));
+dots.push(new Dot(254, 225)); //intersection
+
+dots.push(new Dot(206, 24)); //8th column w.o the first one under lower big square
+dots.push(new Dot(206, 33));
+dots.push(new Dot(206, 43));
+//intersection
+dots.push(new Dot(206, 62.5));
+dots.push(new Dot(206, 71.5));
+//intersection
+dots.push(new Dot(206, 91));
+dots.push(new Dot(206, 101));
+dots.push(new Dot(206, 110));
+dots.push(new Dot(206, 120));
+dots.push(new Dot(206, 129));
+//intersection
+dots.push(new Dot(206, 148));
+dots.push(new Dot(206, 158));
+dots.push(new Dot(206, 167));
+dots.push(new Dot(206, 177));
+dots.push(new Dot(206, 186));
+//intersection to 7th row
+dots.push(new Dot(206, 206));
+dots.push(new Dot(206, 215));
+dots.push(new Dot(206, 225));
+dots.push(new Dot(206, 235));
+dots.push(new Dot(206, 245));
+dots.push(new Dot(206, 255));
+//wall
+dots.push(new Dot(206, 284));
+
+
+dots.push(new Dot(23, 255)); //9th row w.o the first one
+dots.push(new Dot(32, 255));
+dots.push(new Dot(42, 255));
+dots.push(new Dot(51, 255));
+//intersection to 3rd column
+//wall
+//intersection to 4th column
+dots.push(new Dot(100, 255));
+dots.push(new Dot(110, 255));
+//intersection to 5th column
+//wall
+//intersection to 6th column
+dots.push(new Dot(157, 255));
+dots.push(new Dot(166, 255));
+//intersection to 7th column
+//wall
+//intersection to 8th column
+dots.push(new Dot(215, 255));
+dots.push(new Dot(224, 255));
+//intersection to 9th column
+dots.push(new Dot(244, 255));
+dots.push(new Dot(254, 255)); //intersection
+
+
+dots.push(new Dot(234, 235)); //9th column starting after lower big square after first and second intersection ones
+dots.push(new Dot(234, 245));
+dots.push(new Dot(234, 255)); //intersection
+//wall
+dots.push(new Dot(234, 284));
+
+
+dots.push(new Dot(23, 284)); //10th row (last row) w.o first intersection one
+//intersection to 2nd column
+dots.push(new Dot(42, 284));
+dots.push(new Dot(51, 284));
+//intersection to 3rd column
+dots.push(new Dot(71, 284));
+dots.push(new Dot(81, 284));
+//intersection to 4th column
+dots.push(new Dot(101, 284));
+dots.push(new Dot(111, 284));
+//intersection to 5th column
+dots.push(new Dot(129, 284));
+dots.push(new Dot(138, 284));
+//intersection to 6th column
+dots.push(new Dot(157, 284));
+dots.push(new Dot(166, 284));
+//intersection to 7th column
+dots.push(new Dot(185, 284));
+dots.push(new Dot(196, 284));
+//intersection to 8th column
+dots.push(new Dot(216, 284));
+dots.push(new Dot(225, 284));
+//intersection to 9th column
+dots.push(new Dot(244, 284));
+//intersection to 10th column
+
+
+dots.push(new Dot(254, 23)); //10th column w.o the first one
+dots.push(new Dot(254, 33));
+dots.push(new Dot(254, 43));
+//intersection to 2nd row
+dots.push(new Dot(254, 62));
+dots.push(new Dot(254, 71.5));
+//intersection to 3rd row
+//upper big square
+//lower big square
+//intersection to 7th row
+dots.push(new Dot(254, 206));
+dots.push(new Dot(254, 215));
+//intersection to 8th row
+//wall
+//intersection to 9th row
+dots.push(new Dot(254, 264));
+dots.push(new Dot(254, 274));
+dots.push(new Dot(254, 284));
 
 
 myMaze.drawMaze();
@@ -268,7 +692,7 @@ function keyDown(evt) {
 
 function Pacman(){
   this.x = 6;
-  this.y = 30;
+  this.y = 6;
   this.movingUp = false;
   this.movingDown = false;
   this.movingLeft = false;
@@ -357,7 +781,7 @@ function Pacman(){
 
   this.reset = function(){
     this.x = 6;
-    this.y = 30;
+    this.y = 6;
     this.movingUp = false;
     this.movingDown = false;
     this.movingLeft = false;
@@ -742,7 +1166,7 @@ function Pacman(){
       this.img.src = "images/pacdots.png";
 
       this.draw = function(){
-        context.drawImage(this.img, this.x, this.y, 4, 4);
+        context.drawImage(this.img, this.x, this.y, 3, 3);
       }
 
     }
