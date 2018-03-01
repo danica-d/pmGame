@@ -3,7 +3,7 @@
 
 
 <style>
-canvas {border: 3px solid red;}
+canvas {border: 20px solid black;}
 </style>
 
 <body>
@@ -529,18 +529,34 @@ dots.push(new Dot(254, 284));
 myMaze.drawMaze();
 
 var start = true;
-
+var lessLife = false;
   setInterval(animate, 60);
 
+var logo = new Image();
+logo.src = "images/pmLogo.png";
+
+var ready = new Image();
+ready.src = "images/pmReady.jpg";
 var score = 0;
+
+
 function animate(){
   clearBackground();
     doSomething();
     drawThings();
+
+    context.drawImage(logo, 5, 305, 125, 40);
     context.font = "10px Courier New";
-    context.fillStyle = "white";
-    context.fillText("score: " + score, 5, 320);
+    context.fillStyle = "orange";
+    context.fillText("GAME SCORE: " + score, 140, 320);
+
 }
+
+// //doesn't work ***
+// function drawReady(){
+//   context.drawImage(ready, 110, 165, 50, 10);
+//   clearBackground();
+// }
 
 function clearBackground() {
 	context.fillStyle = "black";
@@ -566,9 +582,12 @@ function drawThings(){
   }
 
   myMaze.drawMaze();
+
   if(myPacman.isDead == true){
     myPacman.dead();
+    lessLife = true;
   }
+
   else if(myPacman.facingUp == true){
 		myPacman.drawPmUp();
 	}
@@ -699,7 +718,7 @@ function Pacman(){
   this.movingUp = false;
   this.movingDown = false;
   this.movingLeft = false;
-  this.movingRight = false;
+  this.movingRight = true;
 
   this.facingUp = false;
 	this.facingDown = false;
@@ -777,6 +796,7 @@ function Pacman(){
     this.currImage %= this.DnumbImages;
   }
 
+
   var pmDeadSE = document.getElementById("pmDeadSound");
   this.playDeadSE = function(){
     pmDeadSE.play();
@@ -788,13 +808,14 @@ function Pacman(){
     this.movingUp = false;
     this.movingDown = false;
     this.movingLeft = false;
-    this.movingRight = false;
+    this.movingRight = true;
 
     this.facingUp = false;
   	this.facingDown = false;
   	this.facingLeft = false;
   	this.facingRight = true;
     this.isDead = false;
+    lessLife = false;
   }
 
   this.takeAction = function(dx, dy) {
@@ -833,6 +854,7 @@ function Pacman(){
       }
 
       if( detectCollision(myRedGhost, myPacman) ){
+
         myPacman.movingRight = false;
         myPacman.movingLeft = false;
         myPacman.movingUp = false;
@@ -842,9 +864,11 @@ function Pacman(){
         myPacman.isDead = true;
         myPacman.playDeadSE();
         setTimeout( reset, 1350 );
+
       }
 
       if( detectCollision(myPinkGhost, myPacman) ){
+
         myPacman.movingRight = false;
         myPacman.movingLeft = false;
         myPacman.movingUp = false;
@@ -854,9 +878,11 @@ function Pacman(){
         myPacman.isDead = true;
         myPacman.playDeadSE();
         setTimeout( reset, 1350 );
+
       }
 
       if( detectCollision(myBlueGhost, myPacman) ){
+
         myPacman.movingRight = false;
         myPacman.movingLeft = false;
         myPacman.movingUp = false;
@@ -866,9 +892,11 @@ function Pacman(){
         myPacman.isDead = true;
         myPacman.playDeadSE();
         setTimeout( reset, 1350 );
+
       }
 
       if( detectCollision(myYellowGhost, myPacman) ){
+
         myPacman.movingRight = false;
         myPacman.movingLeft = false;
         myPacman.movingUp = false;
@@ -878,6 +906,7 @@ function Pacman(){
         myPacman.isDead = true;
         myPacman.playDeadSE();
         setTimeout( reset, 1350 );
+
       }
 
       var pmEatDot = false;
@@ -892,6 +921,7 @@ function Pacman(){
       if(pmEatDot) {
   //to score points
         score += 10;
+
       }
 
 
