@@ -8,6 +8,8 @@ canvas {border: 3px solid red;}
 
 <body>
 <canvas width=270 height=300 id="myCanvas"></canvas>
+<audio id= "pmDeadSound"><source src ="images/pmDeadSE.mp3"></audio>
+<!-- <canvas width=270 height=20 id="myHeading"></canvas> -->
 
 <p id ="demo"></p>
 
@@ -21,6 +23,9 @@ addEventListener("keydown", keyDown, false);
 
 var canvas = document.getElementById("myCanvas");
 var context = canvas.getContext("2d");
+//
+// var heading = document.getElementById("myHeading");
+// var ctx = heading.getContext("2d");
 
 var myMaze = new Maze();
 var myPacman = new Pacman();
@@ -28,7 +33,6 @@ var myRedGhost = new Ghost("red");
 var myPinkGhost = new Ghost("pink");
 var myBlueGhost = new Ghost("blue");
 var myYellowGhost = new Ghost("yellow");
-
 
 //Wall(x, y, width, height)
 var walls = [];
@@ -86,20 +90,34 @@ walls.push(new Wall(100, 121, 5, 41)); //left
 walls.push(new Wall(165, 121, 5, 41)); //right
 walls.push(new Wall(100, 154, 65, 8));
 
-setInterval(animate, 60);
+
+//whether or not the dot should be drawn. If pmEats it, drawDot = false
+
+var dots = [];
+
+dots.push(new Dot(13, 13));
+dots.push(new Dot(25, 13));
+dots.push(new Dot(37, 13));
+dots.push(new Dot(49, 13));
+
+
+myMaze.drawMaze();
+
+var start = true;
+
+  setInterval(animate, 60);
+
 
 function animate(){
   clearBackground();
     doSomething();
     drawThings();
-
 }
 
 function clearBackground() {
 	context.fillStyle = "black";
     context.fillRect(0, 0, canvas.width, canvas.height);
 }
-
 
 function doSomething(){
   myPacman.takeAction(3, 3);
@@ -115,24 +133,29 @@ function drawThings(){
     walls[p].draw();
   }
 
-  myMaze.drawMaze();
+  for(var d in dots){
+      dots[d].draw();
+  }
 
-  if(myPacman.facingUp == true){
+  myMaze.drawMaze();
+  if(myPacman.isDead == true){
+    myPacman.dead();
+  }
+  else if(myPacman.facingUp == true){
 		myPacman.drawPmUp();
 	}
 
-	if(myPacman.facingDown == true){
+	else if(myPacman.facingDown == true){
 		myPacman.drawPmDown();
 	}
 
-	if(myPacman.facingLeft == true){
+	else if(myPacman.facingLeft == true){
 		myPacman.drawPmLeft();
 	}
 
-	if(myPacman.facingRight == true){
+	else if(myPacman.facingRight == true){
 		myPacman.drawPmRight();
 	}
-
 
 //red ghost
   if(myRedGhost.movingRight == true){
@@ -243,10 +266,9 @@ function keyDown(evt) {
 
 
 
-
 function Pacman(){
   this.x = 6;
-  this.y = 6;
+  this.y = 30;
   this.movingUp = false;
   this.movingDown = false;
   this.movingLeft = false;
@@ -256,6 +278,7 @@ function Pacman(){
 	this.facingDown = false;
 	this.facingLeft = false;
 	this.facingRight = true;
+  this.isDead = false;
 
   //for the sprite sheet
   this.numbImages = 3;
@@ -264,9 +287,10 @@ function Pacman(){
   this.imageHeightSS = 14;
   this.imageWidth= 16;
   this.imageHeight = 16;
-  this.imageWidthVERTICAL = 14;
+  this.imageWidthVERTICAL = 15;
   this.imageHeightVERTICAL = 16;
 
+  this.DnumbImages = 12;
 
   this.numbCols = 1;
   this.numbRows = 3;
@@ -318,6 +342,34 @@ function Pacman(){
 	}
 
 
+  this.pmDead = new Image ();
+  this.pmDead.src = "images/pmDead.png";
+  this.dead = function(){
+    context.drawImage( this.pmDead, this.currImage*this.imageWidth , 0, this.imageWidth, this.imageHeight, this.x, this.y, this.imageWidth, this.imageHeight );
+    this.currImage++;
+    this.currImage %= this.DnumbImages;
+  }
+
+  var pmDeadSE = document.getElementById("pmDeadSound");
+  this.playDeadSE = function(){
+    pmDeadSE.play();
+  }
+
+  this.reset = function(){
+    this.x = 6;
+    this.y = 30;
+    this.movingUp = false;
+    this.movingDown = false;
+    this.movingLeft = false;
+    this.movingRight = false;
+
+    this.facingUp = false;
+  	this.facingDown = false;
+  	this.facingLeft = false;
+  	this.facingRight = true;
+    this.isDead = false;
+  }
+
   this.takeAction = function(dx, dy) {
     var origX = this.x;
     var origY = this.y;
@@ -352,8 +404,81 @@ function Pacman(){
         this.x = origX;
         this.y = origY;
       }
+
+      if( detectCollision(myRedGhost, myPacman) ){
+        myPacman.movingRight = false;
+        myPacman.movingLeft = false;
+        myPacman.movingUp = false;
+        myPacman.movingDown = false;
+
+        //make animation stop & respawn
+        myPacman.isDead = true;
+        myPacman.playDeadSE();
+        setTimeout( reset, 1350 );
+      }
+
+      if( detectCollision(myPinkGhost, myPacman) ){
+        myPacman.movingRight = false;
+        myPacman.movingLeft = false;
+        myPacman.movingUp = false;
+        myPacman.movingDown = false;
+
+        //make animation stop & respawn
+        myPacman.isDead = true;
+        myPacman.playDeadSE();
+        setTimeout( reset, 1350 );
+      }
+
+      if( detectCollision(myBlueGhost, myPacman) ){
+        myPacman.movingRight = false;
+        myPacman.movingLeft = false;
+        myPacman.movingUp = false;
+        myPacman.movingDown = false;
+
+        //make animation stop & respawn
+        myPacman.isDead = true;
+        myPacman.playDeadSE();
+        setTimeout( reset, 1350 );
+      }
+
+      if( detectCollision(myYellowGhost, myPacman) ){
+        myPacman.movingRight = false;
+        myPacman.movingLeft = false;
+        myPacman.movingUp = false;
+        myPacman.movingDown = false;
+
+        //make animation stop & respawn
+        myPacman.isDead = true;
+        myPacman.playDeadSE();
+        setTimeout( reset, 1350 );
+      }
+
+      var pmEatDot = false;
+
+      for( var d in dots ){
+        if( detectCollision(dots[d], myPacman) ){
+          delete dots[d];
+          pmEatDot = true;
+        }
+      }
+      if(pmEatDot) {
+  //to score points
+      }
+
+
   }
+
 }
+
+
+  function reset(){
+    //reset the data for each thing
+    myPacman.reset();
+    myRedGhost.reset();
+    myPinkGhost.reset();
+    myBlueGhost.reset();
+    myYellowGhost.reset();
+  }
 
 
   function Ghost(clr) {
@@ -446,6 +571,30 @@ function Pacman(){
       this.currImage %= this.numbImages;
     }
 
+    this.reset = function(){
+      this.x = 110;
+      this.y = 130;
+      this.dx = 3;
+      this.dy = 3;
+
+      this.movingUp = false;
+      this.movingDown = false;
+      this.movingLeft = false;
+      this.movingRight = false;
+
+      if(clr == "red") {
+        this.currentState = this.RESPAWN_1;
+      }
+      else if(clr == "pink") {
+        this.currentState = this.RESPAWN_2;
+       }
+      else if(clr == "blue"){
+        this.currentState = this.RESPAWN_1;
+      }
+      else if(clr == "yellow"){
+        this.currentState = this.RESPAWN_2;
+      }
+    }
 
     this.takeAction = function() {
 
@@ -583,6 +732,20 @@ function Pacman(){
   } //Ghost object
 
 
+    function Dot(x, y){
+      this.x = x;
+      this.y = y;
+      this.imageWidth = 2;
+      this.imageHeight = 2;
+
+      this.img = new Image();
+      this.img.src = "images/pacdots.png";
+
+      this.draw = function(){
+        context.drawImage(this.img, this.x, this.y, 4, 4);
+      }
+
+    }
   //function Wall(x, y, w, h, c){} <<< c for color "clear"
     function Wall(x, y, w, h, c) {
       this.x = x;
